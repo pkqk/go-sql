@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -21,8 +20,6 @@ const (
 func (t sqlType) String() string {
 	return [...]string{"", "MySQL", "MySQL", "PostgreSQL"}[t]
 }
-
-type exists struct{}
 
 type sqlOptions struct {
 	cmd   string
@@ -184,9 +181,8 @@ func maybeErrorResult(key string, stderrLines ...string) bool {
 	result := true
 	if len(stderrLines) > 0 {
 		result = false
-		log.Println(key + " had errors:")
 		for _, v := range stderrLines {
-			log.Println(key + " [ERROR] " + v)
+			fmt.Fprintf(os.Stderr, "%s: %s\n", key, v)
 		}
 	}
 	return result
