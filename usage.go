@@ -5,16 +5,16 @@ import (
 	"os"
 )
 
-func usage(error string, args ...interface{}) {
+func usage(msg string, args ...interface{}) {
 	exitCode := 0
 
-	if len(error) > 0 {
+	if len(msg) > 0 {
 		exitCode = 1
 
 		if len(args) > 0 {
-			fmt.Printf(fmt.Sprintf(error, args...))
+			fmt.Printf(msg, args...)
 		} else {
-			fmt.Println(error)
+			fmt.Print(msg)
 		}
 		fmt.Println()
 	}
