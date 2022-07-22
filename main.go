@@ -11,6 +11,8 @@ import (
 	"syscall"
 )
 
+type printlner func(v ...any)
+
 func main() {
 	var (
 		flagHelp    = flag.Bool("help", false, "shows usage")
@@ -58,10 +60,10 @@ func main() {
 		usage("No SQL to run. Exiting.")
 	}
 
-	os.Exit(_main(databases, databasesArgs, query, newThreadSafePrintliner(os.Stdout).println))
+	os.Exit(_main(databases, databasesArgs, query, log.New(os.Stdout, "", 0).Println))
 }
 
-func _main(databases map[string]database, databasesArgs []string, query string, println func(string)) int {
+func _main(databases map[string]database, databasesArgs []string, query string, println printlner) int {
 	targetDatabases := []string{}
 	for _, k := range databasesArgs {
 		if _, ok := databases[k]; k != "all" && !ok {

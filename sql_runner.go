@@ -64,14 +64,14 @@ var sqlTypeToOptions = map[sqlType]sqlOptions{
 }
 
 type sqlRunner struct {
-	printer     func(string)
+	printer     printlner
 	query       string
 	quitContext context.Context
 	multi       bool
 	vertical    bool
 }
 
-func mustNewSQLRunner(quitContext context.Context, printer func(string), query string, multi bool) *sqlRunner {
+func mustNewSQLRunner(quitContext context.Context, printer printlner, query string, multi bool) *sqlRunner {
 	var vertical bool
 	if strings.HasSuffix(query, `\G`) {
 		vertical = true
