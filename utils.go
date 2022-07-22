@@ -1,15 +1,11 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
-	"os"
-	"os/signal"
 	"strings"
 	"sync"
-	"syscall"
 )
 
 type threadSafePrintliner struct {
@@ -40,11 +36,4 @@ func trimEmpty(s []string) []string {
 		}
 	}
 	return r
-}
-
-func awaitSignal(cancel context.CancelFunc) {
-	signals := make(chan os.Signal)
-	signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
-	<-signals
-	cancel()
 }

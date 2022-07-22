@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"sync"
+	"syscall"
 )
 
 func main() {
@@ -75,8 +77,8 @@ func _main(databases map[string]database, databasesArgs []string, query string, 
 		targetDatabases = append(targetDatabases, k)
 	}
 
-	quitContext, cancel := context.WithCancel(context.Background())
-	go awaitSignal(cancel)
+	quitContext, cancel := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer cancel()
 
 	var wg sync.WaitGroup
 	wg.Add(len(targetDatabases))
