@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   test:
     build: .
@@ -10,6 +9,7 @@ services:
       - postgres
   mysql:
     image: mysql:5.7
+    platform: linux/amd64
     volumes:
       - ./mysql_test_schemas.sql:/docker-entrypoint-initdb.d/mysql_test_schemas.sql
     environment:
